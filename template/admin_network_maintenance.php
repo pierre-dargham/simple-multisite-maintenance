@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2 id="smm-maintenance">Mode maintenance</h2>
+    <h2 id="smm-maintenance"><?php echo SMM_NETWORK_PAGE_MAINTENANCE_TITLE; ?></h2>
 
     <?php if( isset( $form_message ) ) { ?>
         <div id="message" class="updated">
@@ -12,7 +12,7 @@
     <?php
         }
 
-        $smm_maintenance = get_site_option('smm_maintenance' , "no" );
+        $smm_maintenance = get_site_option(SMM_SLUG_MODE_OPTION , "no" );
         switch( $smm_maintenance ) {
             case 'no':
                 $action = SMM_SLUG_ACTION_ACTIVATE;
@@ -32,8 +32,9 @@
         <?php wp_nonce_field( SMM_DOMAIN ); ?>
 
         <p>
-            Activer le mode maintenance sur l'ensemble du réseau permet de mettre tout le multisite en mode maintenance.
-            <br /><br />Attention, désactiver le mode maintenance sur l'ensemble du réseau ne désactive pas le mode maintenance pour chacun des sites.
+            <?php echo SMM_TEXT_NETWORK_ACTIVATE_INFO; ?>
+            <br /><br />
+            <?php echo SMM_TEXT_NETWORK_DEACTIVATE_INFO; ?>
         </p>
 
         <p class="submit">
@@ -42,14 +43,14 @@
 
     </form>
 
-      <h3 id="smm-maintenance">Custom maintenance template</h3>
+      <h3 id="smm-maintenance"><?php echo SMM_PAGE_MAINTENANCE_TEMPLATE_TITLE; ?></h3>
     <form method="post" action="<?php echo network_admin_url('settings.php?page=' . SMM_SLUG_NETWORK_ACTION . '&action=' . SMM_SLUG_PATH_ACTION); ?>">
 
     
         <?php wp_nonce_field( SMM_DOMAIN ); ?>
 
         <p>
-            Pour utiliser une page de maintenance personnalisée pour le réseau, indiquez le chemin du template :
+            <?php echo SMM_TEXT_MAINTENANCE_TEMPLATE_INFO; ?>
         </p>
 
         <p>
@@ -57,20 +58,20 @@
             $dirs = explode('/', WP_CONTENT_DIR);
             $content_dir = end($dirs);
             echo $content_dir . '/';
-            $custom_template = get_site_option('smm_maintenance_template_path' , "" );
+            $custom_template = get_site_option(SMM_SLUG_COLUMN_MAINTENANCE , "" );
             ?>
 
-            <input name="template-path" type="text" class="regular-text" title="Chemin du template"  value="<?php echo $custom_template; ?>"/>
+            <input name="<?php echo SMM_SLUG_INPUT_PATH; ?>" type="text" class="regular-text" value="<?php echo $custom_template; ?>"/>
         </p>
 
         <p>
-            Attention, si vous avez configuré un template personnalisé pour un sous-site, c'est ce template qui sera utilisé, et non celui du réseau.
+             <?php echo SMM_TEXT_MAINTENANCE_TEMPLATE_WARNING; ?>
         </p>
 
         <p class="submit">
-            <input id="deactivate-template" name="activate-template" class='button button-primary' type='submit' value='Enregistrer le template' />
+            <input name="<?php echo SMM_SLUG_BUTTON_ACTIVATE_TEMPLATE; ?>" class='button button-primary' type='submit' value='<?php echo SMM_PAGE_TEMPLATE_ACTIVATE; ?>' />
             <?php if(!empty($custom_template)) { ?>
-                <input id="deactivate-template" name="deactivate-template" class='button button-primary' type='submit' value='Désactiver le template personnalisé' />
+                <input name="<?php echo SMM_SLUG_BUTTON_DEACTIVATE_TEMPLATE; ?>" class='button button-primary' type='submit' value='<?php echo SMM_PAGE_TEMPLATE_DEACTIVATE; ?>' />
             <?php } ?>   
         </p>
 

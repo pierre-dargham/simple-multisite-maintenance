@@ -49,10 +49,9 @@ if( !class_exists( 'SMM' ) ) {
             $network_blogs = wp_get_sites();
             foreach( $network_blogs as $blog ){
                 $blog_id = $blog['blog_id'];
-                update_blog_option( $blog_id, "smm_maintenance", "no");
-                update_blog_option( $blog_id, "smm_maintenance_template", "no");
+                update_blog_option( $blog_id, SMM_SLUG_MODE_OPTION, "no");
             }
-            update_site_option( "smm_maintenance", "no");
+            update_site_option( SMM_SLUG_MODE_OPTION, "no");
         }
 
         /**
@@ -62,11 +61,11 @@ if( !class_exists( 'SMM' ) ) {
             $network_blogs = wp_get_sites();
             foreach( $network_blogs as $blog ){
                 $blog_id = $blog['blog_id'];
-                delete_blog_option( $blog_id, "smm_maintenance");
-                delete_blog_option( $blog_id, "smm_maintenance_template_path");
+                delete_blog_option( $blog_id, SMM_SLUG_MODE_OPTION);
+                delete_blog_option( $blog_id, SMM_SLUG_PATH_OPTION);
             }
-            delete_site_option( "smm_maintenance");
-            delete_site_option( "smm_maintenance_template_path");
+            delete_site_option( SMM_SLUG_MODE_OPTION);
+            delete_site_option( SMM_SLUG_PATH_OPTION);
         }
 
         /**
@@ -88,12 +87,12 @@ if( !class_exists( 'SMM' ) ) {
 
         public static function simple_multisite_maintenance() {
             if ( !(is_admin() || current_user_can( 'manage_options' ) || current_user_can( 'administrator' ) ||  current_user_can( 'super admin' ))) {
-                if( get_site_option('smm_maintenance' , "no" ) == "yes" || get_blog_option(get_current_blog_id(), 'smm_maintenance' , "no" ) == "yes") {
+                if( get_site_option(SMM_SLUG_MODE_OPTION , "no" ) == "yes" || get_blog_option(get_current_blog_id(), SMM_SLUG_MODE_OPTION , "no" ) == "yes") {
 
-                    if( $template_path = get_blog_option(get_current_blog_id(), 'smm_maintenance_template_path')) {
+                    if( $template_path = get_blog_option(get_current_blog_id(), SMM_SLUG_PATH_OPTION)) {
                         require_once WP_CONTENT_DIR . '/' . $template_path;
                     }
-                    else if( $template_path = get_site_option('smm_maintenance_template_path')) {
+                    else if( $template_path = get_site_option(SMM_SLUG_PATH_OPTION)) {
                         require_once WP_CONTENT_DIR . '/' . $template_path;
                     }
                     else {

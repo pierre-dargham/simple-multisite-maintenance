@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?php echo get_bloginfo('name'); ?> - Site is down for maintenence</title>
+        <title>Site is down for maintenence</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <style>
         body { text-align: center; padding: 150px; }

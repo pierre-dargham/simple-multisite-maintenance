@@ -4,7 +4,7 @@ Tags: maintenance, multisite, mu, wpmu
 Requires at least: 3.5
 Tested up to: 3.8
 
-Activate or deactivate maintenance mode on your whole network or specifics blogs of your network.
+Activate or deactivate maintenance mode on your whole network or specifics blogs of yout network.
 Maintenance page can be customized
 
 == GLOBALIS ==

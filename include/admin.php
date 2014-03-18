@@ -47,31 +47,31 @@ class SMM_Admin {
     public static function network_page_admin_smm_maintenance() {
         // Capabilities test
         if( !is_super_admin() ) {
-            wp_die(WPDS_GAL_ERROR_CAPABILITIES);
+            wp_die(SMM_ERROR_CAPABILITIES);
         }
 
         // Manage Form Post
         if ( isset($_REQUEST['action'])) {
             switch($_REQUEST['action']) {
                 case SMM_SLUG_ACTION_ACTIVATE :
-                    update_site_option( 'smm_maintenance' , "yes");
-                    $form_message = "Le réseau est désormais en mode maintenance";
+                    update_site_option( SMM_SLUG_MODE_OPTION , "yes");
+                    $form_message = SMM_NETWORK_PAGE_ACTIVATED_MSG;
                     break;
                 case SMM_SLUG_ACTION_DEACTIVATE :
-                    update_site_option( 'smm_maintenance' , "no");
-                    $form_message = "Le réseau n'est plus désormais en mode maintenance";
+                    update_site_option( SMM_SLUG_MODE_OPTION , "no");
+                    $form_message = SMM_NETWORK_PAGE_DEACTIVATED_MSG;
                     break;                
                 case SMM_SLUG_PATH_ACTION :
-                    if(isset($_POST['deactivate-template'])) {
-                        delete_site_option('smm_maintenance_template_path');
-                        $form_message = "Le template personnalisé a été désactivé";
+                    if(isset($_POST[SMM_SLUG_BUTTON_DEACTIVATE_TEMPLATE])) {
+                        delete_site_option(SMM_SLUG_PATH_OPTION);
+                        $form_message = SMM_PAGE_TEMPLATE_DEACTIVATED_MSG;
                     }
-                    else if(isset($_POST['template-path']) && !empty($_POST['template-path'])) {
-                        update_site_option('smm_maintenance_template_path' , $_POST['template-path']);
-                        $form_message = "Votre page de maintenance personnalisée a été enregistrée";
+                    else if(isset($_POST[SMM_SLUG_INPUT_PATH]) && !empty($_POST[SMM_SLUG_INPUT_PATH])) {
+                        update_site_option(SMM_SLUG_PATH_OPTION , $_POST[SMM_SLUG_INPUT_PATH]);
+                        $form_message = SMM_PAGE_TEMPLATE_ACTIVATED_MSG;
                     }
                     else {
-                        wp_die( 'Vous devez indiquer un chemin de template valide' );
+                        wp_die( SMM_TEMPLATE_PATH_ERROR );
                     }
                     break;         
             }
@@ -95,24 +95,24 @@ class SMM_Admin {
         if ( isset($_REQUEST['action'])) {
             switch($_REQUEST['action']) {
                 case SMM_SLUG_ACTION_ACTIVATE :
-                    update_blog_option( get_current_blog_id(), 'smm_maintenance', "yes");
-                    $form_message = "Le site est désormais en mode maintenance";
+                    update_blog_option( get_current_blog_id(), SMM_SLUG_MODE_OPTION, "yes");
+                    $form_message = SMM_PAGE_ACTIVATED_MSG;
                     break;
                 case SMM_SLUG_ACTION_DEACTIVATE :
-                     update_blog_option( get_current_blog_id(), 'smm_maintenance' , "no");
-                    $form_message = "Le site n'est plus désormais en mode maintenance";
+                     update_blog_option( get_current_blog_id(), SMM_SLUG_MODE_OPTION , "no");
+                    $form_message = SMM_PAGE_DEACTIVATED_MSG;
                     break;
                 case SMM_SLUG_PATH_ACTION :
-                    if(isset($_POST['deactivate-template'])) {
-                        delete_blog_option(get_current_blog_id(), 'smm_maintenance_template_path');
-                        $form_message = "Le template personnalisé a été désactivé";
+                    if(isset($_POST[SMM_SLUG_BUTTON_DEACTIVATE_TEMPLATE])) {
+                        delete_blog_option(get_current_blog_id(), SMM_SLUG_PATH_OPTION);
+                        $form_message = SMM_PAGE_TEMPLATE_DEACTIVATED_MSG;
                     }
-                    else if(isset($_POST['template-path']) && !empty($_POST['template-path'])) {
-                        update_blog_option(get_current_blog_id(), 'smm_maintenance_template_path' , $_POST['template-path']);
-                        $form_message = "Votre page de maintenance personnalisée a été enregistrée";
+                    else if(isset($_POST[SMM_SLUG_INPUT_PATH]) && !empty($_POST[SMM_SLUG_INPUT_PATH])) {
+                        update_blog_option(get_current_blog_id(), SMM_SLUG_PATH_OPTION , $_POST[SMM_SLUG_INPUT_PATH]);
+                        $form_message = SMM_PAGE_TEMPLATE_ACTIVATED_MSG;
                     }
                     else {
-                        wp_die( 'Vous devez indiquer un chemin de template valide' );
+                        wp_die( SMM_TEMPLATE_PATH_ERROR );
                     }
                     break;         
             }
@@ -143,7 +143,7 @@ class SMM_Admin {
         if( !is_super_admin() )
             return $columns;
 
-        $columns+= array( 'smm_maintenance' => SMM_STR_MAINTENANCE_COLUMN_TITLE );
+        $columns+= array( SMM_SLUG_COLUMN_MAINTENANCE => SMM_STR_MAINTENANCE_COLUMN_TITLE );
 
         return $columns;
     }
@@ -152,15 +152,15 @@ class SMM_Admin {
      * Display data for added columns
      */
     public static function smm_sites_custom_column( $column_name, $blog_id ) {
-        if ( $column_name == 'smm_maintenance' ) {
-            $smm_maintenance = get_blog_option( $blog_id, 'smm_maintenance' , 'no' );
+        if ( $column_name == SMM_SLUG_COLUMN_MAINTENANCE ) {
+            $smm_maintenance = get_blog_option( $blog_id, SMM_TEMPLATE_PATH_ERROR , 'no' );
             switch( $smm_maintenance ) {
                 case 'no':
-                    echo '<a href="' . network_admin_url('sites.php?action=activate_smm_maintenance&amp;id=' . $blog_id) . '">Activer le mode maintenance</a>';
+                    echo '<a href="' . network_admin_url('sites.php?action='. SMM_SLUG_ACTION_ACTIVATE .'&amp;id=' . $blog_id) . '">' . SMM_NETWORK_PAGE_MAINTENANCE_ACTIVATE . '</a>';
                     break;
                 case 'yes':
                 default :
-                    echo '<a href="' . network_admin_url('sites.php?action=deactivate_smm_maintenance&amp;id=' . $blog_id) . '">Désactiver le mode maintenance</a>';
+                    echo '<a href="' . network_admin_url('sites.php?action='. SMM_SLUG_ACTION_DEACTIVATE .'&amp;id=' . $blog_id) . '">' . SMM_NETWORK_PAGE_MAINTENANCE_DEACTIVATE . '</a>';
                     break;
                 }
         }
@@ -169,11 +169,11 @@ class SMM_Admin {
     public static function update_smm_maintenance() {
         if(isset($_GET['id']) && isset($_GET['action'])) {
             switch ( $_GET['action'] ) {
-                case 'activate_smm_maintenance':
-                    update_blog_option( $_GET['id'], 'smm_maintenance', "yes");
+                case SMM_SLUG_ACTION_ACTIVATE:
+                    update_blog_option( $_GET['id'], SMM_TEMPLATE_PATH_ERROR, "yes");
                 break;
-                case 'deactivate_smm_maintenance':
-                    update_blog_option( $_GET['id'], 'smm_maintenance', "no");
+                case SMM_SLUG_ACTION_DEACTIVATE:
+                    update_blog_option( $_GET['id'], SMM_TEMPLATE_PATH_ERROR, "no");
                 break;
             }
         }
