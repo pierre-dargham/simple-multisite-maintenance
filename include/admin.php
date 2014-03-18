@@ -104,7 +104,7 @@ class SMM_Admin {
                     break;
                 case SMM_SLUG_PATH_ACTION :
                     if(isset($_POST['deactivate-template'])) {
-                        delete_blog_option(get_current_blog_id(), 'smm_maintenance_template_path' , "");
+                        delete_blog_option(get_current_blog_id(), 'smm_maintenance_template_path');
                         $form_message = "Le template personnalisé a été désactivé";
                     }
                     else if(isset($_POST['template-path']) && !empty($_POST['template-path'])) {
