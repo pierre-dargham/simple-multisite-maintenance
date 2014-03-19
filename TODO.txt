@@ -1,3 +1,8 @@
 - Factoriser le code des pages d'options (admin network / admin d'un site)
 
 - Check / sanitize / forms et paths
+
+- Ajouter elements graphiques
+- Mode maintenance :
+Activé + button travaux / rouge
+Désactivé + button web / vert
