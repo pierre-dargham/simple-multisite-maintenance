@@ -88,7 +88,7 @@ class SMM_Admin {
     public static function page_admin_smm_maintenance() {
         // Capabilities test
         if( !current_user_can( 'manage_options' ) ) {
-            wp_die(WPDS_GAL_ERROR_CAPABILITIES);
+            wp_die(SMM_ERROR_CAPABILITIES);
         }
 
         // Manage Form Post
@@ -153,7 +153,7 @@ class SMM_Admin {
      */
     public static function smm_sites_custom_column( $column_name, $blog_id ) {
         if ( $column_name == SMM_SLUG_COLUMN_MAINTENANCE ) {
-            $smm_maintenance = get_blog_option( $blog_id, SMM_TEMPLATE_PATH_ERROR , 'no' );
+            $smm_maintenance = get_blog_option( $blog_id, SMM_SLUG_MODE_OPTION , 'no' );
             switch( $smm_maintenance ) {
                 case 'no':
                     echo '<a href="' . network_admin_url('sites.php?action='. SMM_SLUG_ACTION_ACTIVATE .'&amp;id=' . $blog_id) . '">' . SMM_NETWORK_PAGE_MAINTENANCE_ACTIVATE . '</a>';
@@ -170,10 +170,10 @@ class SMM_Admin {
         if(isset($_GET['id']) && isset($_GET['action'])) {
             switch ( $_GET['action'] ) {
                 case SMM_SLUG_ACTION_ACTIVATE:
-                    update_blog_option( $_GET['id'], SMM_TEMPLATE_PATH_ERROR, "yes");
+                    update_blog_option( $_GET['id'], SMM_SLUG_MODE_OPTION, "yes");
                 break;
                 case SMM_SLUG_ACTION_DEACTIVATE:
-                    update_blog_option( $_GET['id'], SMM_TEMPLATE_PATH_ERROR, "no");
+                    update_blog_option( $_GET['id'], SMM_SLUG_MODE_OPTION, "no");
                 break;
             }
         }

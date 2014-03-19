@@ -58,7 +58,7 @@
             $dirs = explode('/', WP_CONTENT_DIR);
             $content_dir = end($dirs);
             echo $content_dir . '/';
-            $custom_template = get_site_option(SMM_SLUG_COLUMN_MAINTENANCE , "" );
+            $custom_template = get_site_option(SMM_SLUG_PATH_OPTION , "" );
             ?>
 
             <input name="<?php echo SMM_SLUG_INPUT_PATH; ?>" type="text" class="regular-text" value="<?php echo $custom_template; ?>"/>

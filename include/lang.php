@@ -23,6 +23,9 @@ define( 'SMM_TEXT_MAINTENANCE_TEMPLATE_INFO', __( 'Pour utiliser une page de mai
 define( 'SMM_TEXT_MAINTENANCE_TEMPLATE_WARNING', __( 'Attention, si vous avez configuré un template personnalisé pour un sous-site, c\'est ce template qui sera utilisé, et non celui du réseau.', SMM_DOMAIN ) );
 define( 'SMM_PAGE_TEMPLATE_ACTIVATE', __( 'Enregistrer le template', SMM_DOMAIN ) );
 define( 'SMM_PAGE_TEMPLATE_DEACTIVATE', __( 'Désactiver le template personnalisé', SMM_DOMAIN ) );
+define( 'SMM_PAGE_WARNING_ALL_NETWORK', __( 'Attention, le mode maintenance est activé sur tout le réseau. Ce site apparaît donc en mode maintenance, quelque soit sa configuration spécifique.', SMM_DOMAIN ) );
+define( 'SMM_PAGE_MAINTENANCE_INFO', __( 'Lorsque le mode maintenance est activé, seuls les administrateurs connectés peuvent voir le site.', SMM_DOMAIN ) );
+
 
 
 

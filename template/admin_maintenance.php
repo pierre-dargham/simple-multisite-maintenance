@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2 id="smm-maintenance">Mode maintenance</h2>
+    <h2 id="smm-maintenance"><?php echo SMM_PAGE_MAINTENANCE_TITLE; ?></h2>
 
     <?php if( isset( $form_message ) ) { ?>
         <div id="message" class="updated">
@@ -12,13 +12,13 @@
     <?php
         }
 
-        $smm_maintenance = get_site_option('smm_maintenance' , "no" );
+        $smm_maintenance = get_site_option(SMM_SLUG_MODE_OPTION , "no" );
         switch( $smm_maintenance ) {
             case 'yes': ?>
                 <div id="message" class="error">
                     <p>
                         <strong>
-                            Attention, le mode maintenance est activé sur tout le réseau. Ce site apparaît donc en mode maintenance, quelque soit sa configuration spécifique.
+                            <?php echo SMM_PAGE_WARNING_ALL_NETWORK; ?>
                         </strong>
                     </p>
                 </div>
@@ -26,7 +26,7 @@
                 break;
             }
 
-        $smm_maintenance = get_blog_option(get_current_blog_id(), 'smm_maintenance' , "no" );
+        $smm_maintenance = get_blog_option(get_current_blog_id(), SMM_SLUG_MODE_OPTION , "no" );
         switch( $smm_maintenance ) {
             case 'no':
                 $action = SMM_SLUG_ACTION_ACTIVATE;
@@ -46,7 +46,7 @@
         <?php wp_nonce_field( SMM_DOMAIN ); ?>
 
         <p>
-            Lorsque le mode maintenance est activé, seuls les administrateurs connectés peuvent voir le site.
+            <?php echo SMM_PAGE_MAINTENANCE_INFO; ?>
         </p>
 
         <p class="submit">
@@ -55,14 +55,14 @@
 
     </form>
 
-    <h3 id="smm-maintenance">Custom maintenance template</h3>
+    <h3 id="smm-maintenance"><?php echo SMM_PAGE_MAINTENANCE_TEMPLATE_TITLE; ?></h3>
     <form method="post" action="<?php echo admin_url('options-general.php?page=' . SMM_SLUG_ACTION . '&action=' . SMM_SLUG_PATH_ACTION); ?>">
 
     
         <?php wp_nonce_field( SMM_DOMAIN ); ?>
 
         <p>
-            Pour utiliser une page de maintenance personnalisée pour ce site, indiquez le chemin du template :
+            <?php echo SMM_TEXT_MAINTENANCE_TEMPLATE_INFO; ?>
         </p>
 
         <p>
@@ -70,15 +70,15 @@
             $dirs = explode('/', WP_CONTENT_DIR);
             $content_dir = end($dirs);
             echo $content_dir . '/';
-            $custom_template = get_blog_option(get_current_blog_id(), 'smm_maintenance_template_path' , "" );
+            $custom_template = get_blog_option(get_current_blog_id(), SMM_SLUG_PATH_OPTION , "" );
             ?>
-            <input name="template-path" type="text" class="regular-text" title="Chemin du template"  value="<?php echo $custom_template; ?>"/>
+            <input name="<?php echo SMM_SLUG_INPUT_PATH; ?>" type="text" class="regular-text"  value="<?php echo $custom_template; ?>"/>
         </p>
 
         <p class="submit">
-            <input id="deactivate-template" name="activate-template" class='button button-primary' type='submit' value='Enregistrer le template' />
+            <input name="<?php echo SMM_SLUG_BUTTON_ACTIVATE_TEMPLATE; ?>" class='button button-primary' type='submit' value='<?php echo SMM_PAGE_TEMPLATE_ACTIVATE; ?>' />
             <?php if(!empty($custom_template)) { ?>
-                <input id="deactivate-template" name="deactivate-template" class='button button-primary' type='submit' value='Désactiver le template personnalisé' />
+                <input name="<?php echo SMM_SLUG_BUTTON_DEACTIVATE_TEMPLATE; ?>" class='button button-primary' type='submit' value='<?php echo SMM_PAGE_TEMPLATE_DEACTIVATE; ?>' />
             <?php } ?>   
         </p>
 
