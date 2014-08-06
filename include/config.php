@@ -15,12 +15,15 @@ define( 'SMM_DOMAIN', 'simple-multisite-maintenance' );
 /**
  * Slugs
  */
-define( 'SMM_SLUG_NETWORK_ACTION', 'smm-maintenance-network-action' );
 define( 'SMM_SLUG_ACTION', 'smm-maintenance-action' );
+
 define( 'SMM_SLUG_ACTION_ACTIVATE', 'smm-maintenance-activate' );
 define( 'SMM_SLUG_ACTION_DEACTIVATE', 'smm-maintenance-deactivate' );
-define( 'SMM_SLUG_PATH_ACTION', 'smm-maintenance-template-path' );
-define( 'SMM_SLUG_MODE_OPTION', 'smm_maintenance' );
+
+define( 'SMM_SLUG_MODE_OPTION', 'smm_maintenance_mod' );
+define( 'SMM_SLUG_OPTION_ADMIN_CAN_VIEW', 'smm_admin_can_view' );
+define( 'SMM_SLUG_OPTION_TEMPLATE_MOD', 'smm_template_mod' );
+
 define( 'SMM_SLUG_PATH_OPTION', 'smm_maintenance_template_path' );
 define( 'SMM_SLUG_COLUMN_MAINTENANCE', 'smm_maintenance_template_path' );
 define( 'SMM_SLUG_BUTTON_ACTIVATE_TEMPLATE', 'activate-template' );

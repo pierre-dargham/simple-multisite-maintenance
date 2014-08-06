@@ -12,6 +12,7 @@
  */
 
 if( !class_exists( 'SMM' ) ) {
+
     // Load configuration
     require_once realpath( dirname( __FILE__ ) ) . '/include/config.php';
 
@@ -21,8 +22,12 @@ if( !class_exists( 'SMM' ) ) {
     // Load language
     require_once SMM_COMPLETE_PATH . '/include/lang.php';
 
+    require_once SMM_COMPLETE_PATH . '/include/admin.php';
+
+    require_once SMM_COMPLETE_PATH . '/include/functions.php';
+    require_once SMM_COMPLETE_PATH . '/include/lib.php';
+
     if( is_admin() ) {
-        require_once SMM_COMPLETE_PATH . '/include/admin.php';
         SMM_Admin::hooks();
     }
 
@@ -46,65 +51,46 @@ if( !class_exists( 'SMM' ) ) {
          * What to do on plugin activation
          */
         public static function activate() {
-            $network_blogs = wp_get_sites();
-            foreach( $network_blogs as $blog ){
-                $blog_id = $blog['blog_id'];
-                update_blog_option( $blog_id, SMM_SLUG_MODE_OPTION, "no");
-            }
-            update_site_option( SMM_SLUG_MODE_OPTION, "no");
+            SMM_Lib::init_blogs_options();
+            SMM_Lib::init_network_options();
         }
 
         /**
          * What to do on plugin deactivation
          */
         public static function deactivate() {
-            $network_blogs = wp_get_sites();
-            foreach( $network_blogs as $blog ){
-                $blog_id = $blog['blog_id'];
-                delete_blog_option( $blog_id, SMM_SLUG_MODE_OPTION);
-                delete_blog_option( $blog_id, SMM_SLUG_PATH_OPTION);
-            }
-            delete_site_option( SMM_SLUG_MODE_OPTION);
-            delete_site_option( SMM_SLUG_PATH_OPTION);
+            // Nothing for now
         }
 
         /**
          * What to do on plugin uninstallation
          */
         public static function uninstall() {
-            // Nothing for now.
+            SMM_Lib::delete_blogs_options();
+            SMM_Lib::delete_network_options();
         }
 
         /**
          * Plugin init:
          */
         public static function init() {
-            add_action( 'get_header', array( __CLASS__, 'simple_multisite_maintenance' ) );
-
-            if ( !defined( 'WP_CONTENT_DIR' ) )
-                define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' );
+            add_action( 'get_header', array( __CLASS__, 'simple_multisite_maintenance' ), 0 );
         }
 
+        /**
+         * Main function of the plugin :
+         * if maintenance mode is active, redirect to maintenance template
+         */
         public static function simple_multisite_maintenance() {
-            if ( !(is_admin() || current_user_can( 'manage_options' ) || current_user_can( 'administrator' ) ||  current_user_can( 'super admin' ))) {
-                if( get_site_option(SMM_SLUG_MODE_OPTION , "no" ) == "yes" || get_blog_option(get_current_blog_id(), SMM_SLUG_MODE_OPTION , "no" ) == "yes") {
-
-                    if( $template_path = get_blog_option(get_current_blog_id(), SMM_SLUG_PATH_OPTION)) {
-                        require_once WP_CONTENT_DIR . '/' . $template_path;
+                 if ( !SMM_Lib::user_can_view_blog_in_maintenance() && !SMM_Lib::no_maintenance_for_this_blog()) {
+                    if( SMM_Lib::is_current_blog_in_maintenance() || SMM_Lib::is_network_in_maintenance() ) {
+                        $template =  SMM_Lib::get_maintenance_template();
+                        echo $template;
+                        die();
                     }
-                    else if( $template_path = get_site_option(SMM_SLUG_PATH_OPTION)) {
-                        require_once WP_CONTENT_DIR . '/' . $template_path;
-                    }
-                    else {
-                        require_once SMM_COMPLETE_PATH . '/template/maintenance.php';
-                    }
-
-                    die();
-                }
-
-            }
-        }
-    
+                }               
+            }    
     }
+
     SMM::hooks();
 }

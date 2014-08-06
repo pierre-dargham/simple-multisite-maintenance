@@ -19,12 +19,14 @@ define( 'SMM_PAGE_MAINTENANCE_DEACTIVATE', __( 'Désactiver le mode maintenance'
 define( 'SMM_TEXT_NETWORK_ACTIVATE_INFO', __( 'Activer le mode maintenance sur l\'ensemble du réseau permet de mettre tout le multisite en mode maintenance.', SMM_DOMAIN ) );
 define( 'SMM_TEXT_NETWORK_DEACTIVATE_INFO', __( 'Attention, désactiver le mode maintenance sur l\'ensemble du réseau ne désactive pas le mode maintenance pour chacun des sites.', SMM_DOMAIN ) );
 define( 'SMM_PAGE_MAINTENANCE_TEMPLATE_TITLE', __( 'Page de maintenance personnalisée', SMM_DOMAIN ) );
-define( 'SMM_TEXT_MAINTENANCE_TEMPLATE_INFO', __( 'Pour utiliser une page de maintenance personnalisée pour le réseau, indiquez le chemin du template :', SMM_DOMAIN ) );
+define( 'SMM_TEXT_MAINTENANCE_TEMPLATE_INFO', __( 'Pour utiliser une page de maintenance personnalisée, indiquez le chemin du template :', SMM_DOMAIN ) );
 define( 'SMM_TEXT_MAINTENANCE_TEMPLATE_WARNING', __( 'Attention, si vous avez configuré un template personnalisé pour un sous-site, c\'est ce template qui sera utilisé, et non celui du réseau.', SMM_DOMAIN ) );
 define( 'SMM_PAGE_TEMPLATE_ACTIVATE', __( 'Enregistrer le template', SMM_DOMAIN ) );
 define( 'SMM_PAGE_TEMPLATE_DEACTIVATE', __( 'Désactiver le template personnalisé', SMM_DOMAIN ) );
 define( 'SMM_PAGE_WARNING_ALL_NETWORK', __( 'Attention, le mode maintenance est activé sur tout le réseau. Ce site apparaît donc en mode maintenance, quelque soit sa configuration spécifique.', SMM_DOMAIN ) );
 define( 'SMM_PAGE_MAINTENANCE_INFO', __( 'Lorsque le mode maintenance est activé, seuls les administrateurs connectés peuvent voir le site.', SMM_DOMAIN ) );
+
+define( 'SMM_PAGE_ADMIN_CAN_VIEW', __( 'Les administrateurs connectés peuvent voir le site', SMM_DOMAIN ) );
 
 
 
@@ -32,5 +34,5 @@ define( 'SMM_PAGE_MAINTENANCE_INFO', __( 'Lorsque le mode maintenance est activ�
 /** 
  * Errors
  */
-define( 'SMM_ERROR_CAPABILITIES', __( 'Sorry, you don\'t have permissions to use this page.', WPDS_DOMAIN ) );
+define( 'SMM_ERROR_CAPABILITIES', __( 'Sorry, you don\'t have permissions to use this page.', SMM_DOMAIN ) );
 define( 'SMM_TEMPLATE_PATH_ERROR', __( 'Vous devez indiquer un chemin de template valide', SMM_DOMAIN ) );
